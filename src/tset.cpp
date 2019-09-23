@@ -22,7 +22,7 @@ TSet::TSet(const TBitField &bf) : MaxPower(bf.GetLength()), BitField(bf)
 {
 }
 
-TSet::operator TBitField()      //ПОСМОТРЕТЬ
+TSet::operator TBitField()      //
 {
 	return BitField;
 }
@@ -39,13 +39,13 @@ int TSet::IsMember(const int Elem) const // элемент множества?
 
 void TSet::InsElem(const int Elem) // включение элемента множества
 {
-	if (Elem < 0 && Elem >= MaxPower) throw 1;
+	if (Elem < 0 || Elem >= MaxPower) throw "excess of borders";
 	BitField.SetBit(Elem);
 }
 
 void TSet::DelElem(const int Elem) // исключение элемента множества
 {
-	if (Elem < 0 && Elem >= MaxPower) throw 1;
+	if (Elem < 0 || Elem >= MaxPower) throw "excess of borders";
 	BitField.ClrBit(Elem);
 }
 
@@ -83,12 +83,7 @@ TSet TSet::operator+(const TSet &s) // объединение
 
 TSet TSet::operator+(const int Elem) // объединение с элементом
 {
-	//if (Elem < 0 && Elem >= MaxPower)
-	//{
-		//throw "Wrong data";
-	//}
-
-	if (Elem < 0 && Elem >= MaxPower) throw 1;
+	if (Elem < 0 || Elem >= MaxPower) throw "excess of borders";
 	TSet res(MaxPower);
 	res.BitField.SetBit(Elem);
 	return res;
@@ -96,19 +91,14 @@ TSet TSet::operator+(const int Elem) // объединение с элемент
 
 TSet TSet::operator-(const int Elem) // разность с элементом
 {
-	//if (Elem > MaxPower)
-	//{
-		//throw "Wrong data";
-	//}
-	//else
-	if (Elem < 0 && Elem >= MaxPower) throw 1;
+	if (Elem < 0 || Elem >= MaxPower) throw "excess of borders";
 	TSet res(*this);
 	res.BitField.ClrBit(Elem);
 	return res;
 	
 }
 
-TSet TSet::operator*(const TSet &s) // пересечение !!!!!!!!!!!!!!1
+TSet TSet::operator*(const TSet &s) // пересечение 
 {
 	int size = MaxPower > s.MaxPower ? MaxPower : s.MaxPower;
 	TSet res(size);
